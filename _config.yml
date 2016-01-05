@@ -6,16 +6,16 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: Neural Network Building Blocks
+email: grady@gradysimon.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+  A reference guide to the various components that can go into
+  neural networks. This guide gives a sense of what these
+  components are for and how they work.
+baseurl: "/neural-network-building-blocks" # the subpath of your site, e.g. /blog
+url: "http://gradysimon.github.io/" # the base hostname & protocol for your site
+twitter_username: GradySimon
+github_username:  GradySimon
 
 # Build settings
 markdown: kramdown
