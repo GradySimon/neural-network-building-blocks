@@ -4,9 +4,9 @@ layout: page
 
 # Neural Network Building Blocks
 
-Deep learning is hot. New architectures are published all the time, setting the state of the art on a huge variety of different tasks. Once an obscure sub-branch of machine learning, articles on the topic are now popping up on Hacker News almost daily.
+Deep learning is hot. New architectures are published all the time, setting the state of the art on a huge variety of different tasks.
 
-Research is outpacing application. New architectures are being created so frequently that it's difficult just to keep track of what's out there. The machine learning practitioner is drowning in options: should I use an RNN or a feedforward architecture? Wait, does that "R" stand for recurrent or recursive? Attentional models seem promising - have they been applied to this problem? I've heard of researchers applying convolutional networks to text processing - when is that appropriate?
+Research is outpacing application. New architectures are being created so frequently that it's difficult to keep track of what's out there. The machine learning practitioner is drowning in options: should I use an RNN or a feedforward architecture? Wait, does that "R" stand for recurrent or recursive? Attentional models seem promising - have they been applied to this problem?
 
 Neural network architectures tend to be highly modular. Certain components are used over and over in different architectures. LSTMs, for example have been one of the darlings of 2015, finding application in all kinds of different networks. Much of the recent innovation in deep learning has been in using these components together in new and exciting ways. Connect a convolutional net to an LSTM and you get a video processor.
 
@@ -18,12 +18,22 @@ Neural networks are made up of layers. Sometimes we construct a single logical l
 A layer takes a vector as input and produces another vector, not necessarily of the same size, as output.
 
 ### Vanilla
-A simple multiplication of the input vector by a weight matrix, typically passed through a non-linearity.
+A linear transformation of the input followed by a non-linearity.
+
+A vanilla layer, $$h$$ can be defined for a weight matrix $$W$$, bias vector $$b$$, and a nonlinearity $$f$$:
+
+$$h(x) = f(Wx + b)$$
 
 **Useful for:** mapping from one feature space to another
 
 ### Softmax
-Takes a vector as input, outputs a vector whose elements are each between 0 and 1 and also sum to 1. This output vector can be interpreted as a categorical probability distribution.
+Turns an input vector into a categorical probability distribution.
+
+Takes an input vector and returns another vector of the same dimensionality whose elements are each between 0 and 1 and also sum to 1. This makes the output vector suitable to be interpreted as a categorical probability distribution.
+
+For an $$n$$-dimensional input vector $$x$$, each element $$i$$ of a softmax layer's output is defined as:
+
+$$softmax(x)_i = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}$$
 
 **Useful for:** multiclass classification, attention
 
@@ -36,18 +46,66 @@ Embedding layers are often represented as matrices where each row is the vector 
 
 **Useful for:** converting discrete symbols into dense vector representations
 
-### Max Pooling
-Returns the maximum value from its input. Can be interpreted as finding the most active of its inputs. Often used in conjunction with convolutional layers.
+#### Max Pooling
+
+Downsamples the input, selecting the maximum value in each region.
+
+A max pooling layer segments the input into regions and returns the max value from each. Typically, the result of a pooling operation is a tensor with the same number of axes as the input, but with fewer indices along each axis i.e. the input tensor is shrunk, but not flattened.
 
 **Useful for:** dimensionality reduction, especially in image or speech processing
 
 ### Gated Recurrent Unit (GRU)
-As the name suggests, these units are primarily used in recurrent neural networks. Applied over a sequence, GRUs have internal layers (gates) that allow the network to learn to control how information from earlier in the sequence interacts with information later in the sequence.
+A recurrent unit that uses gates to manage long-term dependencies.
+
+The output vector or hidden state of a GRU at a given time step in a sequence depends on the current element of the sequence as well as the network's hidden state at the previous time step.
+
+The way that previous hidden state influences next hidden state is controlled by two internal layers called gates, the update gate and the reset gate.
+
+At each time step, we compute the values of the two gates, the update gate $$z_t$$, and the reset gate $$r_t$$. They are parameterized by $$W^{(z)}$$ and $$W^{(r)}$$, weight matrices for incorporating the current element of the input sequence, $$x_t$$, and $$U^{(z)}$$ and $$U^{(r)}$$, weight matrices for incorporating the previous hidden state, $$h_t$$. We use the sigmoid activation function $$\sigma$$ to ensure that the elements of these gate vectors are between zero and one:
+
+$$
+z_t = \sigma(W^{(z)}x_t + U^{(z)}h_{t-1}) \\
+r_t = \sigma(W^{(r)}x_t + U^{(r)}h_{t-1})
+$$
+
+We then compute $$\widetilde{h}_t$$, often called the proposed hidden state update. $$\circ$$ is the [Hadamard or elementwise product](https://en.wikipedia.org/wiki/Hadamard_product_(matrices)). The reset gate vector $$r_t$$ can be seen as controlling how much each element of the previous hidden state is allowed to enter into the proposed hidden state update $$\widetilde{h}_t$$. If an element of $$r_t$$ is close to zero, $$h_{t-1}$$ has little influence on the next hidden state; the state is reset.
+
+$$
+\widetilde{h}_t = \tanh(Wx_t + r_t \circ Uh_{t-1})
+$$
+
+Finally, we combine the proposed hidden state update with the previous hidden state according to the update gate vector, $$z_t$$. If an element of $$z_t$$ is close to 1, the corresponding element of the final hidden state $$h_t$$ will come almost entirely from $$\widetilde{h}_t$$. If it's close to zero, corresponding element of $$h_{t-1}$$ is carried through almost unchanged.
+
+$$
+h_t = z_t \circ h_{t-1} + (1 - z_t) \circ \widetilde{h}_t
+$$
 
 **Useful for:** processing sequences with long-distance dependencies
 
 ### Long Short-Term Memory (LSTM)
-LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows in to and out of that memory cell upon processing an element of a sequence. These gates include.
+A recurrent unit that uses gates and an internal memory cell to manage long-term dependencies.
+
+[rework]LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
+
+At each time step, we compute the values of the three gates, the input gate $$i_t$$, the forget gate $$f_t$$, and the output gate $$o_t$$ for an input element $$x_t$$ and the previous hidden state $$h_{t-1}$$. These gates are parameterized by $$W^{(i)}$$, $$W^{(f)}$$, and $$W^{(o)}$$, weight matrices for incorporating the current element of the input sequence, and by $$U^{(i)}$$, $$U^{(f)}$$, and $$U^{(o)}$$, weight matrices for incorporating the previous hidden state:
+
+$$
+i_t = \sigma(W^{(i)}x_t + U^{(i)}h_{t-1}) \\
+f_t = \sigma(W^{(f)}x_t + U^{(f)}h_{t-1}) \\
+o_t = \sigma(W^{(o)}x_t + U^{(o)}h_{t-1})
+$$
+
+To compute the new value of the memory cell $$c_t$$, we first compute a proposed new memory cell $$\widetilde{c}_t$$:
+
+$$ \widetilde{c}_t = tanh(W^{(c)}x_t + U^{(c)}h_{t-1}) $$
+
+The final memory cell is computed by combining the proposed new memory cell and the previous memory cell according to the forget and input gates. If $$f_t$$ is close to zero, the previous value of the memory cell is "forgotten". If $$i_t$$ is close to zero, the new value of the memory cell is mostly unaffected by the current input element:
+
+$$ c_t = f_t \circ c_{t-1} + i_t \circ \widetilde{c}_t $$
+
+Finally, we compute the new hidden state $$h_t$$. The output gate $$o_t$$ controls the degree to which the value of the memory cell is output into the LSTM's hidden state:
+
+$$ h_t = o_t \circ tanh(c_t) $$
 
 **Useful for:** processing sequences with long-distance dependencies
 
@@ -59,10 +117,18 @@ A fully differentiable non-linearity that produces activations between 0 and 1.
 
 The sigmoid function and the hyperbolic tangent are related by a simple identity. The general guidance is to use the hyperbolic tangent instead of the signmoid except when one specifically needs activations between 0 and 1. See [jpmuc's answer at Cross Validated](http://stats.stackexchange.com/a/101563) for more details.
 
-**Useful for:** any time you need activations between 0 and 1, for example if the output will be interpreted as a probability
+The sigmoid function, often denotes $$\sigma$$ is defined for a scalar $$x$$ as:
+
+$$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
+
+**Useful for:** any time you need activations between 0 and 1, for example if the output will be interpreted as a probability or as a gate.
 
 ### Hyperbolic Tangent (tanh)
 A fully differentiable non-linearity that produces activations between -1 and 1.
+
+The hyperbolic tangent $$tanh$$ can be defined for a scalar $$x$$ as:
+
+$$ tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1} $$
 
 **Useful for:** Just about any time you need a non-linearity and the -1 to 1 output range is acceptable for the domain.
 
@@ -70,6 +136,10 @@ A fully differentiable non-linearity that produces activations between -1 and 1.
 A non-linearity that is simply the max of 0 and the input.
 
 The rectifier is useful for avoiding the vanishing gradient problem. The gradient of a rectifier is either 0 or 1, so as error messages flow through it, they are either passed through unchanged, or zeroed out.
+
+The rectifier can be defined for a scalar $$x$$ as:
+
+$$ f(x) = max(0, x) $$
 
 **Useful for:** deep networks, like recurrent networks over long sequences or deep convolution networks
 
