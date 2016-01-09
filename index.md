@@ -6,11 +6,11 @@ layout: page
 
 Deep learning is hot. New architectures are published all the time, setting the state of the art on a huge variety of different tasks.
 
-Research is outpacing application. New architectures are being created so frequently that it's difficult to keep track of what's out there. The machine learning practitioner is drowning in options: should I use an RNN or a feedforward architecture? Wait, does that "R" stand for recurrent or recursive? Attentional models seem promising - have they been applied to this problem?
+Research is outpacing application. Exotic new architectures are being created so frequently that it's difficult to keep track of what's out there. The practitioner is drowning in options.
 
-Neural network architectures tend to be highly modular. Certain components are used over and over in different architectures. LSTMs, for example have been one of the darlings of 2015, finding application in all kinds of different networks. Much of the recent innovation in deep learning has been in using these components together in new and exciting ways. Connect a convolutional net to an LSTM and you get a video processor.
+It helps to take a modular perspective. Each new paper features a new architecture, but usually it's just a new arrangement of familliar building blocks, maybe with one or two totally novel components. 
 
-This article is an attempt to catalog these building blocks and make it easier to understand when and how they should be used.
+This page is intended as a reference guide to the building blocks of neural networks. It covers how they work, what they accomplish, and how to use them.
 
 ## Layers, units
 Neural networks are made up of layers. Sometimes we construct a single logical layer out of multiple simple layers. These compound layers are sometimes called units, as in "Gated Recurrent Unit". 
