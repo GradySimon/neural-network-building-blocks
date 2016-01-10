@@ -85,7 +85,7 @@ $$
 ### Long Short-Term Memory (LSTM)
 A recurrent unit that uses gates and an internal memory cell to manage long-term dependencies.
 
-[rework]LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
+LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
 
 At each time step, we compute the values of the three gates, the input gate $$i_t$$, the forget gate $$f_t$$, and the output gate $$o_t$$ for an input element $$x_t$$ and the previous hidden state $$h_{t-1}$$. These gates are parameterized by $$W^{(i)}$$, $$W^{(f)}$$, and $$W^{(o)}$$, weight matrices for incorporating the current element of the input sequence, and by $$U^{(i)}$$, $$U^{(f)}$$, and $$U^{(o)}$$, weight matrices for incorporating the previous hidden state:
 
@@ -164,8 +164,6 @@ Convolution applies the same layer to eachw indow. The result of each applicatio
 
 **Useful for:** Detecting local features, achieving translation invariance
 
-(Tuple vec -> vec) -> ([vec] -> matrix)
-
 ### Recurrence
 The application of a layer to a sequence of inputs where the result of one application can influence the next.
 
@@ -179,8 +177,6 @@ The way that the processing of one input can influence the next depends on the l
 Recurrent neural networks have been shown to be Turing complete [citation needed].
 
 **Useful for:** Stateful sequence processing
-
-(vec -> vec) -> ([vec] -> vec)
  
 ### Recursion
 The recursive application of a layer to a tree-structured input.
@@ -188,10 +184,3 @@ The recursive application of a layer to a tree-structured input.
 The input to a recursive neural network is a tree structure of input vectors. We apply a layer that takes a the child vectors of a node in the tree and produces a vector that represents the entire subtree at that node. We apply this layer recursively, starting with the leaf nodes, until we have a vector that represents the entire tree.
 
 **Useful for:** Processing inputs with recursive structure, like sentence parse trees. 
-
-(Tuple vec -> vec) -> (Tree vec -> vec)
-
-## Architectural patterns 
-Organize by application domain? NLP, image recognition, audio
-
-### Skip-gram
