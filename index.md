@@ -2,7 +2,7 @@
 layout: page
 ---
 
-<div id="toc"></div>
+{% include toc.html %}
 
 Deep learning is hot. New architectures are published all the time, setting the state of the art on a huge variety of different tasks.
 
