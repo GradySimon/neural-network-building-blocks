@@ -1,5 +1,19 @@
-.collapse-header {
+.section-header {
+    padding-bottom: 5px;
+    border-bottom: solid 1px #e2e3e4;
+    overflow: hidden;
+}
 
+h2.section-header {
+    margin-top: 45px;
+}
+
+h3.section-header {
+    margin-top: 35px;
+}
+
+.collapsible-section {
+    margin-left: 10px;
 }
 
 .math {
@@ -7,4 +21,8 @@
     margin: 0px 0px 10px 5px;
     padding: 5px 10px 5px 10px;
     background-color: #f8f8f8;
+}
+
+.collapse-header > span.glyphicon {
+    font-size: 0.8em;
 }

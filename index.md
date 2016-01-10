@@ -12,13 +12,17 @@ It helps to take a modular perspective. Each new paper features a new architectu
 
 This page is intended as a reference guide to the building blocks of neural networks. It covers how they work, what they accomplish, and how to use them.
 
-## Layers, units
+## Layers and units
+{: .section-header}
+
 Neural networks are made up of layers. Sometimes we construct a single logical layer out of multiple simple layers. These compound layers are sometimes called units, as in "Gated Recurrent Unit". 
 
 A layer takes a vector as input and produces another vector, not necessarily of the same size, as output.
 
 ### Vanilla
-A linear transformation of the input followed by a non-linearity.
+{: .section-header}
+
+A linear transformation of the input followed by a nonlinearity.
 
 {% include start-collapse.html id="vanilla-math" class="math" title="Math" %}
 A vanilla layer $$h$$ can be defined for a weight matrix $$W$$, bias vector $$b$$, and a nonlinearity $$f$$:
@@ -30,6 +34,8 @@ $$h(x) = f(Wx + b)$$
 **Useful for:** mapping from one feature space to another
 
 ### Softmax
+{: .section-header}
+
 Turns an input vector into a categorical probability distribution.
 
 Takes an input vector and returns another vector of the same dimensionality whose elements are each between 0 and 1 and also sum to 1. This makes the output vector suitable to be interpreted as a categorical probability distribution.
@@ -44,6 +50,8 @@ $$softmax(x)_i = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}$$
 **Useful for:** multiclass classification, attention
 
 ### Embedding
+{: .section-header}
+
 A lookup table from some symbol to a vector that represents it in a high dimensional space.
 
 Embedding layers often find use in natural language processing tasks, where they can be used to map from a word to a vector that represents the semantics of that word which can then be used as normal with other layers.
@@ -52,7 +60,8 @@ Embedding layers are often represented as matrices where each row is the vector 
 
 **Useful for:** converting discrete symbols into dense vector representations
 
-### Max Pooling
+### Max pooling
+{: .section-header}
 
 Downsamples the input, selecting the maximum value in each region.
 
@@ -61,6 +70,8 @@ A max pooling layer segments the input into regions and returns the max value fr
 **Useful for:** dimensionality reduction, especially in image or speech processing
 
 ### Gated Recurrent Unit (GRU)
+{: .section-header}
+
 A recurrent unit that uses gates to manage long-term dependencies.
 
 The output vector or hidden state of a GRU at a given time step in a sequence depends on the current element of the sequence as well as the network's hidden state at the previous time step.
@@ -92,6 +103,8 @@ $$
 **Useful for:** processing sequences with long-distance dependencies
 
 ### Long Short-Term Memory (LSTM)
+{: .section-header}
+
 A recurrent unit that uses gates and an internal memory cell to manage long-term dependencies.
 
 LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
@@ -121,11 +134,15 @@ $$ h_t = o_t \circ tanh(c_t) $$
 
 **Useful for:** processing sequences with long-distance dependencies
 
-## Non-linearities
-Non-linearities are critical to the expressive power of neural networks - they allow networks to represent non-linear functions. A neural network layer typically applies some linear transformation to its input and then passes the transformed values through an element-wise non-linearity to yield its final output, often called an activation. 
+## Nonlinearities
+{: .section-header}
+
+Nonlinearities are critical to the expressive power of neural networks - they allow networks to represent nonlinear functions. A neural network layer typically applies some linear transformation to its input and then passes the transformed values through an element-wise nonlinearity to yield its final output, often called an activation. 
 
 ### Sigmoid
-A fully differentiable non-linearity that produces activations between 0 and 1.
+{: .section-header}
+
+A fully differentiable nonlinearity that produces activations between 0 and 1.
 
 The sigmoid function and the hyperbolic tangent are related by a simple identity. The general guidance is to use the hyperbolic tangent instead of the signmoid except when one specifically needs activations between 0 and 1. See [jpmuc's answer at Cross Validated](http://stats.stackexchange.com/a/101563) for more details.
 
@@ -138,8 +155,10 @@ $$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
 
 **Useful for:** any time you need activations between 0 and 1, for example if the output will be interpreted as a probability or as a gate.
 
-### Hyperbolic Tangent (tanh)
-A fully differentiable non-linearity that produces activations between -1 and 1.
+### Hyperbolic tangent (tanh)
+{: .section-header}
+
+A fully differentiable nonlinearity that produces activations between -1 and 1.
 
 {% include start-collapse.html id="tanh-math" class="math" title="Math" %}
 The hyperbolic tangent $$tanh$$ can be defined for a scalar $$x$$ as:
@@ -148,10 +167,12 @@ $$ tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1} $$
 
 {% include end-collapse.html %}
 
-**Useful for:** Just about any time you need a non-linearity and the -1 to 1 output range is acceptable for the domain.
+**Useful for:** Just about any time you need a nonlinearity and the -1 to 1 output range is acceptable for the domain.
 
 ### Rectifier
-A non-linearity that is simply the max of 0 and the input.
+{: .section-header}
+
+A nonlinearity that is simply the max of 0 and the input.
 
 The rectifier is useful for avoiding the vanishing gradient problem. The gradient of a rectifier is either 0 or 1, so as error messages flow through it, they are either passed through unchanged, or zeroed out.
 
@@ -165,9 +186,13 @@ $$ f(x) = max(0, x) $$
 **Useful for:** deep networks, like recurrent networks over long sequences or deep convolution networks
 
 ## Higher-order mechanisms
+{: .section-header}
+
 Just about every neural network has more than a single layer. Neural network architectures typically combine individual layers according to recognizable patterns. These higher-order mechanisms give the network the power to operate over different kinds of inputs, perform more complex kinds of computation, or produce different kinds of outputs.
 
 ### Stacked layers
+{: .section-header}
+
 The composition (in the sense of function composition) of two layers. The outputs of one layer are simply passed as the inputs to the next.
 
 Stacking is one of the primary ways that neural networks become deep. Some architectures contain dozens of stacked layers. Stacking enables more efficient representations of complex functions (in terms of parameter count) than simply making a layer wider. Later layers in a stack can benefit from the processing that has already been done by earlier layers.
@@ -175,6 +200,8 @@ Stacking is one of the primary ways that neural networks become deep. Some archi
 **Useful for:** Increasing a model's expressive power
 
 ### Convolution
+{: .section-header}
+
 The application of a single layer to sliding, overlapping windows of an input.
 
 Convolution produces an output that has one more dimension than the convolved layer. If you convolve a layer that produces a scalar output for each window, the result will be a vector of those scalars, one for each window.
@@ -186,6 +213,8 @@ Convolution applies the same layer to eachw indow. The result of each applicatio
 **Useful for:** Detecting local features, achieving translation invariance
 
 ### Recurrence
+{: .section-header}
+
 The application of a layer to a sequence of inputs where the result of one application can influence the next.
 
 Recurrence allows for the stateful processing of a sequence of inputs. What all recurrent neural networks have in common is:
@@ -198,6 +227,8 @@ The way that the processing of one input can influence the next depends on the l
 **Useful for:** Stateful sequence processing
  
 ### Recursion
+{: .section-header}
+
 The recursive application of a layer to a tree-structured input.
 
 The input to a recursive neural network is a tree structure of input vectors. We apply a layer that takes a the child vectors of a node in the tree and produces a vector that represents the entire subtree at that node. We apply this layer recursively, starting with the leaf nodes, until we have a vector that represents the entire tree.
