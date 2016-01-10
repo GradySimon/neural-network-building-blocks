@@ -20,9 +20,12 @@ A layer takes a vector as input and produces another vector, not necessarily of 
 ### Vanilla
 A linear transformation of the input followed by a non-linearity.
 
-A vanilla layer, $$h$$ can be defined for a weight matrix $$W$$, bias vector $$b$$, and a nonlinearity $$f$$:
+{% include start-collapse.html id="vanilla-math" class="math" title="Math" %}
+A vanilla layer $$h$$ can be defined for a weight matrix $$W$$, bias vector $$b$$, and a nonlinearity $$f$$:
 
 $$h(x) = f(Wx + b)$$
+
+{% include end-collapse.html %}
 
 **Useful for:** mapping from one feature space to another
 
@@ -31,9 +34,12 @@ Turns an input vector into a categorical probability distribution.
 
 Takes an input vector and returns another vector of the same dimensionality whose elements are each between 0 and 1 and also sum to 1. This makes the output vector suitable to be interpreted as a categorical probability distribution.
 
+{% include start-collapse.html id="softmax-math" class="math" title="Math" %}
 For an $$n$$-dimensional input vector $$x$$, each element $$i$$ of a softmax layer's output is defined as:
 
 $$softmax(x)_i = \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}}$$
+
+{% include end-collapse.html %}
 
 **Useful for:** multiclass classification, attention
 
@@ -61,6 +67,7 @@ The output vector or hidden state of a GRU at a given time step in a sequence de
 
 The way that previous hidden state influences next hidden state is controlled by two internal layers called gates, the update gate and the reset gate.
 
+{% include start-collapse.html id="gru-math" class="math" title="Math" %}
 At each time step, we compute the values of the two gates, the update gate $$z_t$$, and the reset gate $$r_t$$. They are parameterized by $$W^{(z)}$$ and $$W^{(r)}$$, weight matrices for incorporating the current element of the input sequence, $$x_t$$, and $$U^{(z)}$$ and $$U^{(r)}$$, weight matrices for incorporating the previous hidden state, $$h_t$$. We use the sigmoid activation function $$\sigma$$ to ensure that the elements of these gate vectors are between zero and one:
 
 $$
@@ -80,6 +87,8 @@ $$
 h_t = z_t \circ h_{t-1} + (1 - z_t) \circ \widetilde{h}_t
 $$
 
+{% include end-collapse.html %}
+
 **Useful for:** processing sequences with long-distance dependencies
 
 ### Long Short-Term Memory (LSTM)
@@ -87,6 +96,7 @@ A recurrent unit that uses gates and an internal memory cell to manage long-term
 
 LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
 
+{% include start-collapse.html id="lstm-math" class="math" title="Math" %}
 At each time step, we compute the values of the three gates, the input gate $$i_t$$, the forget gate $$f_t$$, and the output gate $$o_t$$ for an input element $$x_t$$ and the previous hidden state $$h_{t-1}$$. These gates are parameterized by $$W^{(i)}$$, $$W^{(f)}$$, and $$W^{(o)}$$, weight matrices for incorporating the current element of the input sequence, and by $$U^{(i)}$$, $$U^{(f)}$$, and $$U^{(o)}$$, weight matrices for incorporating the previous hidden state:
 
 $$
@@ -107,6 +117,8 @@ Finally, we compute the new hidden state $$h_t$$. The output gate $$o_t$$ contro
 
 $$ h_t = o_t \circ tanh(c_t) $$
 
+{% include end-collapse.html %}
+
 **Useful for:** processing sequences with long-distance dependencies
 
 ## Non-linearities
@@ -117,18 +129,24 @@ A fully differentiable non-linearity that produces activations between 0 and 1.
 
 The sigmoid function and the hyperbolic tangent are related by a simple identity. The general guidance is to use the hyperbolic tangent instead of the signmoid except when one specifically needs activations between 0 and 1. See [jpmuc's answer at Cross Validated](http://stats.stackexchange.com/a/101563) for more details.
 
-The sigmoid function, often denotes $$\sigma$$ is defined for a scalar $$x$$ as:
+{% include start-collapse.html id="sigmoid-math" class="math" title="Math" %}
+The sigmoid function, often denoted $$\sigma$$, is defined for a scalar $$x$$ as:
 
 $$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
+
+{% include end-collapse.html %}
 
 **Useful for:** any time you need activations between 0 and 1, for example if the output will be interpreted as a probability or as a gate.
 
 ### Hyperbolic Tangent (tanh)
 A fully differentiable non-linearity that produces activations between -1 and 1.
 
+{% include start-collapse.html id="tanh-math" class="math" title="Math" %}
 The hyperbolic tangent $$tanh$$ can be defined for a scalar $$x$$ as:
 
 $$ tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1} $$
+
+{% include end-collapse.html %}
 
 **Useful for:** Just about any time you need a non-linearity and the -1 to 1 output range is acceptable for the domain.
 
@@ -137,9 +155,12 @@ A non-linearity that is simply the max of 0 and the input.
 
 The rectifier is useful for avoiding the vanishing gradient problem. The gradient of a rectifier is either 0 or 1, so as error messages flow through it, they are either passed through unchanged, or zeroed out.
 
+{% include start-collapse.html id="rectifier-math" class="math" title="Math" %}
 The rectifier can be defined for a scalar $$x$$ as:
 
 $$ f(x) = max(0, x) $$
+
+{% include end-collapse.html %}
 
 **Useful for:** deep networks, like recurrent networks over long sequences or deep convolution networks
 
