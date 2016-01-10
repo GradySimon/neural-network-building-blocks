@@ -2,7 +2,7 @@
 layout: page
 ---
 
-# Neural Network Building Blocks
+<div id="toc"></div>
 
 Deep learning is hot. New architectures are published all the time, setting the state of the art on a huge variety of different tasks.
 
@@ -46,7 +46,7 @@ Embedding layers are often represented as matrices where each row is the vector 
 
 **Useful for:** converting discrete symbols into dense vector representations
 
-#### Max Pooling
+### Max Pooling
 
 Downsamples the input, selecting the maximum value in each region.
 
@@ -173,8 +173,6 @@ Recurrence allows for the stateful processing of a sequence of inputs. What all 
 - The processing of one element of a sequence can influence the processing of the next
 
 The way that the processing of one input can influence the next depends on the layers that are used. The simplest recurrent neural network is a vanilla feed forward layer where the result of the application of the layer to one element of the input sequence is passed as part of the input vector to the same layer when it processes the next element.
-
-Recurrent neural networks have been shown to be Turing complete [citation needed].
 
 **Useful for:** Stateful sequence processing
  
