@@ -74,6 +74,12 @@ A max pooling layer segments the input into regions and returns the max value fr
 
 A recurrent unit that uses gates to manage long-term dependencies.
 
+![A GRU]({{ "/img/LSTM3-var-GRU.png" | prepend: site.baseurl }})
+{: .figure}
+
+The internals of a GRU{% include ack-link.html name="colah" anchor="*" %}
+{: .caption}
+
 The output vector or hidden state of a GRU at a given time step in a sequence depends on the current element of the sequence as well as the network's hidden state at the previous time step.
 
 The way that previous hidden state influences next hidden state is controlled by two internal layers called gates, the update gate and the reset gate.
@@ -106,6 +112,12 @@ $$
 {: .section-header}
 
 A recurrent unit that uses gates and an internal memory cell to manage long-term dependencies.
+
+![An LSTM]({{ "/img/LSTM3-chain.png" | prepend: site.baseurl }})
+{: .figure}
+
+The internals of an LSTM{% include ack-link.html name="colah" anchor="*" %}
+{: .caption}
 
 LSTMs are used primarily in recurrent neural networks. They maintain internal state, a vector typically referred to as a memory cell, across applications over a sequence of inputs. They have internal layers (gates) that allow the network to learn to control how information flows into and out of that memory cell upon processing an element of a sequence. These gates include.
 
@@ -204,6 +216,12 @@ Stacking is one of the primary ways that neural networks become deep. Some archi
 
 The application of a single layer to sliding, overlapping windows of an input.
 
+![Convolution]({{ "/img/Conv1.png" | prepend: site.baseurl }})
+{: .figure}
+
+1-dimensional convolution of a layer $$A$$ over an input sequence $$x_1 ... x_8$$.{% include ack-link.html name="colah" anchor="*" %}
+{: .caption}
+
 Convolution produces an output that has one more dimension than the convolved layer. If you convolve a layer that produces a scalar output for each window, the result will be a vector of those scalars, one for each window.
 
 Since each application of the convolved layer only sees a (typically small) window of the input, convolution is useful for detecting local features of the input. In an image processing task, these local features might be the edges of objects, for example.
@@ -216,6 +234,12 @@ Convolution applies the same layer to eachw indow. The result of each applicatio
 {: .section-header}
 
 The application of a layer to a sequence of inputs where the result of one application can influence the next.
+
+![A recurrent nerual network]({{ "/img/RNN-general.png" | prepend: site.baseurl }})
+{: .figure}
+
+Recurrent application of a layer $$A$$ over an input sequence $$x_1 ... x_i$$ yeilding a sequence of outputs $$y_1 ... y_i$$ and a final hidden state $$s_i$$.{% include ack-link.html name="colah" anchor="*" %}
+{: .caption}
 
 Recurrence allows for the stateful processing of a sequence of inputs. What all recurrent neural networks have in common is:
 
@@ -231,6 +255,17 @@ The way that the processing of one input can influence the next depends on the l
 
 The recursive application of a layer to a tree-structured input.
 
+![A recursive nerual network]({{ "/img/TreeNet.png" | prepend: site.baseurl }})
+{: .figure}
+
+In this architecture, the vectors for each word are first processed by a vanilla layer $$A_{Leaf}$$ before being combined through the recursive application of a layer $$A_{Branch}$$ according to the parse structure shown on the left.{% include ack-link.html name="colah" anchor="*" %}
+{: .caption}
+
 The input to a recursive neural network is a tree structure of input vectors. We apply a layer that takes a the child vectors of a node in the tree and produces a vector that represents the entire subtree at that node. We apply this layer recursively, starting with the leaf nodes, until we have a vector that represents the entire tree.
 
 **Useful for:** Processing inputs with recursive structure, like sentence parse trees. 
+
+## Acknowledgements
+{: .section-header}
+
+{% include ack-target.html name="colah" %} Many thanks to Chris Olah, whose blog and especially the post [Neural Networks, Types, and Functional Programming](http://colah.github.io/posts/2015-09-NN-Types-FP/) inspired this project. Chris was also kind enough to allow me to use some of the excellent figures he made for that post and his post on [Understanding LSTM Networks](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
