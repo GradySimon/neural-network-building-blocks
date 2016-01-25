@@ -4,10 +4,6 @@ img {
     height: 200px;
 }
 
-.figure {
-
-}
-
 .caption {
     display: block;
     margin: 0 auto;
@@ -16,6 +12,7 @@ img {
     margin-bottom: 10px;
 }
 
+/* Compensate for the paragraph bottom margin if caption following figure. */
 .figure + .caption {
     margin-top: -15px;
 }
